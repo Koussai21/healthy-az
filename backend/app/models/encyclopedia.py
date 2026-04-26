@@ -1,7 +1,7 @@
 import enum
 from datetime import datetime
 
-from sqlalchemy import DateTime, Enum, ForeignKey, String, Text
+from sqlalchemy import DateTime, ForeignKey, String, Text
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.database import Base
@@ -17,7 +17,8 @@ class EncyclopediaEntry(Base):
     __tablename__ = "encyclopedia_entries"
 
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
-    kind: Mapped[EntryKind] = mapped_column(Enum(EntryKind), index=True)
+    # VARCHAR uniquement : aucun CREATE TYPE PostgreSQL (compatible droits restreints sur public)
+    kind: Mapped[str] = mapped_column(String(32), index=True)
     title: Mapped[str] = mapped_column(String(300), index=True)
     slug: Mapped[str] = mapped_column(String(320), unique=True, index=True)
     summary: Mapped[str | None] = mapped_column(Text, nullable=True)

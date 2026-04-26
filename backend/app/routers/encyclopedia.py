@@ -37,7 +37,7 @@ def list_entries(
 ):
     query = db.query(EncyclopediaEntry)
     if kind:
-        query = query.filter(EncyclopediaEntry.kind == kind)
+        query = query.filter(EncyclopediaEntry.kind == kind.value)
     if q and q.strip():
         term = f"%{q.strip()}%"
         query = query.filter(
@@ -68,7 +68,7 @@ def create_entry(
     base = slugify(payload.title)
     slug = _unique_slug(db, base)
     entry = EncyclopediaEntry(
-        kind=EntryKind(payload.kind.value),
+        kind=payload.kind.value,
         title=payload.title.strip(),
         slug=slug,
         summary=payload.summary,

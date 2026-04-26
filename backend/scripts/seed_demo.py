@@ -29,31 +29,31 @@ def main():
             db.commit()
         samples = [
             (
-                EntryKind.symptome,
+                EntryKind.symptome.value,
                 "Fièvre",
                 "Élévation temporaire de la température corporelle.",
                 "La fièvre est souvent un signe d'infection ou d'inflammation. Mesurer la température et surveiller l'hydratation. Consulter un médecin si la fièvre est très élevée ou persistante.",
             ),
             (
-                EntryKind.diagnostic,
+                EntryKind.diagnostic.value,
                 "Hypertension artérielle",
                 "Pression artérielle durablement élevée.",
                 "Diagnostic posé par mesures répétées de la tension. Prise en charge: hygiène de vie, suivi médical, traitement si indiqué. Ce contenu est éducatif et ne remplace pas une consultation.",
             ),
             (
-                EntryKind.maladie,
+                EntryKind.maladie.value,
                 "Grippe",
                 "Infection virale respiratoire saisonnière.",
                 "Symptômes: fièvre, courbatures, fatigue, toux. Repos, hydratation et avis médical en cas de signes de gravité ou de facteurs de risque.",
             ),
         ]
-        for kind, title, summary, content in samples:
+        for kind_str, title, summary, content in samples:
             slug = slugify(title)
             if db.query(EncyclopediaEntry).filter(EncyclopediaEntry.slug == slug).first():
                 continue
             db.add(
                 EncyclopediaEntry(
-                    kind=kind,
+                    kind=kind_str,
                     title=title,
                     slug=slug,
                     summary=summary,
